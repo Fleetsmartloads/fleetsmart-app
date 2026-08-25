@@ -1,26 +1,281 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fleetsmart Management | Dispatcher Login</title>
 
-    <meta charset="UTF-8">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(255, 198, 0, 0.10), transparent 35%),
+        linear-gradient(135deg, #090b0f, #12151b);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+    }
 
-    <title>Fleetsmart Management</title>
+    .login-container {
+      width: 100%;
+      max-width: 1100px;
+      min-height: 650px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      background: #11141a;
+      border: 1px solid #242832;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+    }
 
+    .brand-side {
+      position: relative;
+      background: #0b0d11;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px;
+      overflow: hidden;
+    }
+
+    .brand-side::before {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: rgba(247, 196, 0, 0.08);
+      filter: blur(10px);
+    }
+
+    .logo {
+      width: 320px;
+      max-width: 80%;
+      position: relative;
+      z-index: 2;
+      border-radius: 20px;
+      margin-bottom: 35px;
+    }
+
+    .brand-side h1 {
+      position: relative;
+      z-index: 2;
+      font-size: 38px;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+
+    .brand-side p {
+      position: relative;
+      z-index: 2;
+      color: #9ca3af;
+      font-size: 16px;
+    }
+
+    .login-side {
+      padding: 70px 60px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .eyebrow {
+      color: #f6c400;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .login-side h2 {
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #8f96a3;
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+
+    .field {
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 9px;
+      color: #d8dbe2;
+    }
+
+    input {
+      width: 100%;
+      height: 54px;
+      padding: 0 16px;
+      border-radius: 12px;
+      border: 1px solid #303540;
+      background: #0d1015;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: #f6c400;
+      box-shadow: 0 0 0 3px rgba(246, 196, 0, 0.12);
+    }
+
+    .password-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: -10px;
+      margin-bottom: 28px;
+    }
+
+    .password-row a {
+      color: #aeb4bf;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .password-row a:hover {
+      color: #f6c400;
+    }
+
+    .login-button {
+      width: 100%;
+      height: 56px;
+      border: none;
+      border-radius: 12px;
+      background: #f6c400;
+      color: #101010;
+      font-weight: 800;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .login-button:hover {
+      transform: translateY(-1px);
+      background: #ffd326;
+    }
+
+    .footer {
+      margin-top: 32px;
+      text-align: center;
+      color: #666d79;
+      font-size: 12px;
+    }
+
+    @media (max-width: 850px) {
+      .login-container {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-side {
+        min-height: 300px;
+        padding: 35px;
+      }
+
+      .logo {
+        width: 180px;
+        margin-bottom: 15px;
+      }
+
+      .brand-side h1 {
+        font-size: 28px;
+      }
+
+      .login-side {
+        padding: 45px 30px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-    <h1>Fleetsmart Management</h1>
+  <div class="login-container">
 
-    <h2>Dispatcher Portal</h2>
+    <section class="brand-side">
+      <img src="logo.jpeg" alt="Fleetsmart Management Logo" class="logo">
 
-    <p>Welcome to the Fleetsmart dispatch management system.</p>
-    <p>Fleetsmart Dispatcher Portal is online.</p>
+      <h1>Fleetsmart Management</h1>
+      <p>Transportation & Dispatch Management System</p>
+    </section>
+
+    <section class="login-side">
+
+      <div class="eyebrow">Dispatcher Portal</div>
+
+      <h2>Welcome back</h2>
+
+      <p class="subtitle">
+        Sign in to manage loads, trucks, drivers and dispatch operations.
+      </p>
+
+      <form onsubmit="demoLogin(event)">
+
+        <div class="field">
+          <label>Email address</label>
+          <input
+            type="email"
+            placeholder="dispatcher@fleetsmartloads.com"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <input
+            type="password"
+            placeholder="Enter your password"
+            required
+          >
+        </div>
+
+        <div class="password-row">
+          <a href="#">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="login-button">
+          Sign In
+        </button>
+
+      </form>
+
+      <div class="footer">
+        © 2026 Fleetsmart Management LLC. Authorized personnel only.
+      </div>
+
+    </section>
+
+  </div>
+
+  <script>
+    function demoLogin(event) {
+      event.preventDefault();
+
+      alert(
+        "Login design is working. Next we will connect real dispatcher accounts."
+      );
+    }
+  </script>
 
 </body>
-
 </html>

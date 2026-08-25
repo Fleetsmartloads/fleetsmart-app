@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Fleetsmart Management | Dashboard</title>
+  <title>Dashboard | Fleetsmart Management</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -18,396 +18,358 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto, Helvetica, Arial, sans-serif;
-
       background: #f5f6f8;
       color: #171717;
-      min-height: 100vh;
     }
 
     .app {
-      display: grid;
-      grid-template-columns: 250px 1fr;
       min-height: 100vh;
+      display: flex;
     }
 
     /* SIDEBAR */
 
     .sidebar {
-      background: #101114;
-      color: #ffffff;
-      padding: 24px 18px;
-
+      width: 220px;
+      background: #111214;
+      color: white;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
       display: flex;
       flex-direction: column;
-
-      border-right: 1px solid #24262b;
+      padding: 20px 15px;
     }
 
     .brand {
       display: flex;
       align-items: center;
       gap: 12px;
-
-      padding: 4px 8px 24px;
-      border-bottom: 1px solid #2a2c31;
-      margin-bottom: 22px;
+      padding: 8px 8px 24px;
+      border-bottom: 1px solid #2b2d31;
     }
 
-    .brand img {
-      width: 48px;
-      height: 48px;
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: white;
+      padding: 4px;
       object-fit: contain;
     }
 
-    .brand-text h1 {
-      font-size: 18px;
-      line-height: 1.1;
-      margin-bottom: 4px;
+    .brand-title {
+      font-size: 16px;
+      font-weight: 800;
     }
 
-    .brand-text p {
-      font-size: 11px;
-      color: #999fa8;
+    .brand-subtitle {
+      font-size: 10px;
+      color: #a9abb1;
+      margin-top: 3px;
     }
 
     .nav {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      margin-top: 18px;
     }
 
-    .nav button {
-      width: 100%;
-      background: transparent;
-      color: #c7cbd1;
-
-      border: none;
-      border-radius: 9px;
-
-      text-align: left;
-      padding: 12px 14px;
-
-      font-size: 14px;
-      font-weight: 600;
-
+    .nav-item {
+      display: block;
+      text-decoration: none;
+      color: #c8cad0;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 11px 13px;
+      margin-bottom: 5px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: 0.2s;
     }
 
-    .nav button:hover {
-      background: #1c1e23;
-      color: #ffffff;
+    .nav-item:hover {
+      background: #1b1d20;
+      color: white;
     }
 
-    .nav button.active {
+    .nav-item.active {
       background: #ffc400;
-      color: #111111;
+      color: #111;
     }
 
     .sidebar-bottom {
       margin-top: auto;
-      padding-top: 24px;
-      border-top: 1px solid #2a2c31;
+      border-top: 1px solid #2b2d31;
+      padding: 25px 8px 0;
     }
 
-    .user-box {
-      padding: 12px 10px 18px;
+    .signed-label {
+      color: #8f9299;
+      font-size: 11px;
     }
 
-    .user-box small {
-      display: block;
-      color: #7f858f;
-      margin-bottom: 5px;
-    }
-
-    .user-box strong {
-      display: block;
-      font-size: 13px;
+    .signed-email {
+      font-size: 12px;
+      font-weight: 700;
+      margin-top: 4px;
       overflow-wrap: anywhere;
     }
 
     .logout-button {
       width: 100%;
-      padding: 11px 14px;
-
+      margin-top: 16px;
       background: transparent;
-      color: #e6e6e6;
-
-      border: 1px solid #35383f;
-      border-radius: 9px;
-
-      cursor: pointer;
-      font-weight: 650;
-    }
-
-    .logout-button:hover {
-      background: #1c1e23;
-    }
-
-    /* MAIN */
-
-    .main {
-      min-width: 0;
-    }
-
-    .topbar {
-      height: 78px;
-      background: #ffffff;
-      border-bottom: 1px solid #e7e8ea;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      padding: 0 34px;
-    }
-
-    .topbar h2 {
-      font-size: 24px;
-      letter-spacing: -0.5px;
-    }
-
-    .topbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .new-load-button {
-      border: none;
-      background: #ffc400;
-      color: #111111;
-
-      padding: 12px 18px;
-      border-radius: 9px;
-
-      font-size: 14px;
-      font-weight: 750;
-
-      cursor: pointer;
-    }
-
-    .new-load-button:hover {
-      background: #f0b900;
-    }
-
-    .content {
-      padding: 30px 34px 50px;
-    }
-
-    .welcome {
-      margin-bottom: 26px;
-    }
-
-    .welcome h3 {
-      font-size: 28px;
-      margin-bottom: 7px;
-    }
-
-    .welcome p {
-      color: #737780;
-      font-size: 14px;
-    }
-
-    /* CARDS */
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 18px;
-      margin-bottom: 28px;
-    }
-
-    .stat-card {
-      background: #ffffff;
-      border: 1px solid #e5e6e8;
-      border-radius: 14px;
-      padding: 22px;
-
-      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.035);
-    }
-
-    .stat-label {
-      color: #7e828a;
-      font-size: 13px;
-      margin-bottom: 10px;
-    }
-
-    .stat-value {
-      font-size: 30px;
-      font-weight: 800;
-      margin-bottom: 4px;
-    }
-
-    .stat-note {
-      color: #93979e;
-      font-size: 12px;
-    }
-
-    /* PANEL */
-
-    .panel {
-      background: #ffffff;
-      border: 1px solid #e5e6e8;
-      border-radius: 14px;
-      overflow: hidden;
-
-      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.035);
-    }
-
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      padding: 20px 22px;
-      border-bottom: 1px solid #ececee;
-    }
-
-    .panel-header h4 {
-      font-size: 17px;
-    }
-
-    .panel-header p {
-      color: #8a8e96;
-      font-size: 12px;
-      margin-top: 4px;
-    }
-
-    .view-all {
-      color: #7a6700;
-      background: #fff8d6;
-      border: 1px solid #ffe58a;
-
-      padding: 8px 12px;
+      color: white;
+      border: 1px solid #393c42;
       border-radius: 8px;
-
+      padding: 10px;
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
     }
 
-    .table-wrap {
+    .logout-button:hover {
+      background: #1d1f22;
+    }
+
+    /* MAIN */
+
+    .main {
+      margin-left: 220px;
+      width: calc(100% - 220px);
+      min-height: 100vh;
+    }
+
+    .topbar {
+      height: 70px;
+      background: white;
+      border-bottom: 1px solid #e2e4e7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+    }
+
+    .topbar h1 {
+      font-size: 22px;
+    }
+
+    .new-load-button {
+      background: #ffc400;
+      color: #111;
+      border: none;
+      border-radius: 9px;
+      padding: 12px 18px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .new-load-button:hover {
+      background: #efb900;
+    }
+
+    .content {
+      padding: 28px 30px;
+    }
+
+    .heading h2 {
+      font-size: 26px;
+      margin-bottom: 5px;
+    }
+
+    .heading p {
+      color: #747881;
+      font-size: 13px;
+    }
+
+    /* STATS */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 22px;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid #e0e2e5;
+      border-radius: 13px;
+      padding: 20px;
+      min-height: 108px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+
+    .stat-label {
+      color: #747881;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    .stat-description {
+      color: #8b8e95;
+      font-size: 11px;
+      margin-top: 8px;
+    }
+
+    /* LOAD TABLE */
+
+    .loads-card {
+      background: white;
+      border: 1px solid #e0e2e5;
+      border-radius: 13px;
+      margin-top: 24px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+
+    .loads-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid #e7e8ea;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .loads-header h3 {
+      font-size: 16px;
+      margin-bottom: 3px;
+    }
+
+    .loads-header p {
+      color: #858991;
+      font-size: 11px;
+    }
+
+    .view-all-button {
+      border: 1px solid #f0c94d;
+      background: #fff9e7;
+      color: #5f4a00;
+      border-radius: 8px;
+      padding: 9px 13px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .table-wrapper {
       overflow-x: auto;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 820px;
-    }
-
-    th,
-    td {
-      text-align: left;
-      padding: 15px 18px;
-      border-bottom: 1px solid #f0f0f1;
-      font-size: 13px;
     }
 
     th {
-      color: #80858d;
-      font-weight: 650;
+      text-align: left;
+      color: #737780;
       background: #fafafa;
+      font-size: 11px;
+      padding: 14px 15px;
+      border-bottom: 1px solid #e7e8ea;
+      white-space: nowrap;
     }
 
     td {
-      color: #282a2e;
+      font-size: 12px;
+      padding: 15px;
+      border-bottom: 1px solid #eceef0;
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: #fafafa;
     }
 
     .route {
-      font-weight: 650;
+      font-weight: 700;
     }
 
     .status {
       display: inline-block;
-      padding: 6px 9px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 750;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 800;
     }
 
-    .status.in-transit {
-      background: #e8f4ff;
-      color: #1268a8;
+    .status-dispatched {
+      background: #fff2c7;
+      color: #7b5c00;
     }
 
-    .status.dispatched {
-      background: #fff4ce;
-      color: #886900;
+    .status-loaded {
+      background: #eee7ff;
+      color: #5732a8;
     }
 
-    .status.delivered {
-      background: #e6f7ec;
-      color: #18733a;
+    .status-transit {
+      background: #e2f2ff;
+      color: #08659b;
     }
 
-    /* OTHER PAGES */
+    .status-delivered {
+      background: #dff5e7;
+      color: #14743a;
+    }
 
-    .page {
+    .status-cancelled {
+      background: #ffe3e3;
+      color: #a52323;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 45px !important;
+      color: #858991;
+    }
+
+    .error-box {
       display: none;
+      margin-top: 20px;
+      background: #ffeaea;
+      color: #a41f1f;
+      border: 1px solid #ffc9c9;
+      border-radius: 10px;
+      padding: 14px;
+      font-size: 13px;
     }
 
-    .page.active {
-      display: block;
-    }
+    /* RESPONSIVE */
 
-    .placeholder {
-      background: #ffffff;
-      border: 1px solid #e5e6e8;
-      border-radius: 14px;
-      padding: 35px;
-    }
-
-    .placeholder h3 {
-      margin-bottom: 10px;
-    }
-
-    .placeholder p {
-      color: #777b83;
-    }
-
-    /* MOBILE */
-
-    .mobile-menu {
-      display: none;
-    }
-
-    @media (max-width: 1050px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    @media (max-width: 1000px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
-    @media (max-width: 760px) {
-      .app {
-        grid-template-columns: 1fr;
-      }
-
+    @media (max-width: 700px) {
       .sidebar {
-        display: none;
+        width: 175px;
       }
 
-      .topbar {
-        padding: 0 18px;
+      .main {
+        margin-left: 175px;
+        width: calc(100% - 175px);
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
       }
 
       .content {
-        padding: 22px 18px 40px;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .mobile-menu {
-        display: inline-block;
-
-        background: transparent;
-        border: none;
-
-        font-size: 24px;
-        cursor: pointer;
+        padding: 20px;
       }
     }
   </style>
@@ -415,469 +377,842 @@
 
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <!-- SIDEBAR -->
+  <!-- SIDEBAR -->
 
-    <aside class="sidebar">
+  <aside class="sidebar">
 
-      <div class="brand">
+    <div class="brand">
 
-        <img src="logo.svg" alt="Fleetsmart">
+      <img
+        src="logo.svg"
+        class="brand-logo"
+        alt="Fleetsmart"
+      >
 
-        <div class="brand-text">
-          <h1>Fleetsmart</h1>
-          <p>Management LLC</p>
+      <div>
+        <div class="brand-title">
+          Fleetsmart
+        </div>
+
+        <div class="brand-subtitle">
+          Management LLC
+        </div>
+      </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+      <a class="nav-item active">
+        Dashboard
+      </a>
+
+      <a class="nav-item" href="#">
+        Loads
+      </a>
+
+      <a class="nav-item" href="#">
+        Trucks
+      </a>
+
+      <a class="nav-item" href="#">
+        Drivers
+      </a>
+
+      <a class="nav-item" href="#">
+        Brokers
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <div class="signed-label">
+        Signed in as
+      </div>
+
+      <div
+        class="signed-email"
+        id="signedInEmail"
+      >
+        Loading...
+      </div>
+
+      <button
+        class="logout-button"
+        id="logoutButton"
+      >
+        Log Out
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <h1>
+        Dashboard
+      </h1>
+
+      <button
+        class="new-load-button"
+        id="newLoadButton"
+      >
+        + New Load
+      </button>
+
+    </header>
+
+
+    <section class="content">
+
+      <div class="heading">
+
+        <h2>
+          Operations Overview
+        </h2>
+
+        <p>
+          Monitor current loads, trucks and dispatch activity.
+        </p>
+
+      </div>
+
+
+      <!-- STATS -->
+
+      <div class="stats">
+
+        <div class="stat-card">
+
+          <div class="stat-label">
+            Active Loads
+          </div>
+
+          <div
+            class="stat-value"
+            id="activeLoadsCount"
+          >
+            0
+          </div>
+
+          <div class="stat-description">
+            Currently active
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-label">
+            Trucks
+          </div>
+
+          <div
+            class="stat-value"
+            id="trucksCount"
+          >
+            0
+          </div>
+
+          <div class="stat-description">
+            Trucks assigned to loads
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-label">
+            Drivers
+          </div>
+
+          <div
+            class="stat-value"
+            id="driversCount"
+          >
+            0
+          </div>
+
+          <div class="stat-description">
+            Drivers assigned to loads
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-label">
+            Weekly Revenue
+          </div>
+
+          <div
+            class="stat-value"
+            id="weeklyRevenue"
+          >
+            $0
+          </div>
+
+          <div class="stat-description">
+            Loads created last 7 days
+          </div>
+
         </div>
 
       </div>
 
 
-      <nav class="nav">
-
-        <button class="active" data-page="dashboard">
-          Dashboard
-        </button>
-
-        <button data-page="loads">
-          Loads
-        </button>
-
-        <button data-page="trucks">
-          Trucks
-        </button>
-
-        <button data-page="drivers">
-          Drivers
-        </button>
-
-        <button data-page="brokers">
-          Brokers
-        </button>
-
-      </nav>
+      <div
+        class="error-box"
+        id="errorBox"
+      ></div>
 
 
-      <div class="sidebar-bottom">
+      <!-- LOADS -->
 
-        <div class="user-box">
-          <small>Signed in as</small>
-          <strong id="userEmail">Loading...</strong>
-        </div>
+      <div class="loads-card">
 
-        <button class="logout-button" id="logoutButton">
-          Log Out
-        </button>
+        <div class="loads-header">
 
-      </div>
+          <div>
 
-    </aside>
+            <h3>
+              Active Loads
+            </h3>
 
+            <p>
+              Latest dispatch activity
+            </p>
 
-    <!-- MAIN -->
+          </div>
 
-    <main class="main">
-
-      <header class="topbar">
-
-        <div>
-          <button class="mobile-menu">☰</button>
-          <h2 id="pageTitle">Dashboard</h2>
-        </div>
-
-        <div class="topbar-actions">
-          <button class="new-load-button" id="newLoadButton">
-            + New Load
+          <button
+            class="view-all-button"
+            id="viewAllButton"
+          >
+            View all loads
           </button>
-        </div>
-
-      </header>
-
-
-      <section class="content">
-
-
-        <!-- DASHBOARD PAGE -->
-
-        <div class="page active" id="dashboard">
-
-          <div class="welcome">
-            <h3>Operations Overview</h3>
-            <p>
-              Monitor current loads, trucks and dispatch activity.
-            </p>
-          </div>
-
-
-          <div class="stats-grid">
-
-            <div class="stat-card">
-              <div class="stat-label">Active Loads</div>
-              <div class="stat-value">4</div>
-              <div class="stat-note">Currently moving</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-label">Trucks</div>
-              <div class="stat-value">5</div>
-              <div class="stat-note">Fleet units</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-label">Drivers</div>
-              <div class="stat-value">6</div>
-              <div class="stat-note">Active driver profiles</div>
-            </div>
-
-            <div class="stat-card">
-              <div class="stat-label">Weekly Revenue</div>
-              <div class="stat-value">$18,450</div>
-              <div class="stat-note">Sample data</div>
-            </div>
-
-          </div>
-
-
-          <div class="panel">
-
-            <div class="panel-header">
-
-              <div>
-                <h4>Active Loads</h4>
-                <p>Latest dispatch activity</p>
-              </div>
-
-              <button class="view-all" data-go="loads">
-                View all loads
-              </button>
-
-            </div>
-
-
-            <div class="table-wrap">
-
-              <table>
-
-                <thead>
-                  <tr>
-                    <th>Load #</th>
-                    <th>Truck</th>
-                    <th>Route</th>
-                    <th>Driver</th>
-                    <th>Broker</th>
-                    <th>Rate</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-
-                  <tr>
-                    <td>10452</td>
-                    <td>2512</td>
-                    <td class="route">Newark, NJ → Atlanta, GA</td>
-                    <td>George</td>
-                    <td>Example Logistics</td>
-                    <td>$3,200</td>
-                    <td>
-                      <span class="status in-transit">
-                        In Transit
-                      </span>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>10453</td>
-                    <td>2521</td>
-                    <td class="route">Chicago, IL → Dallas, TX</td>
-                    <td>David</td>
-                    <td>Sample Freight</td>
-                    <td>$4,450</td>
-                    <td>
-                      <span class="status dispatched">
-                        Dispatched
-                      </span>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>10454</td>
-                    <td>2540</td>
-                    <td class="route">Toledo, OH → Miami, FL</td>
-                    <td>Alex</td>
-                    <td>Demo Transport</td>
-                    <td>$4,100</td>
-                    <td>
-                      <span class="status in-transit">
-                        In Transit
-                      </span>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>10451</td>
-                    <td>2551</td>
-                    <td class="route">Baltimore, MD → Charlotte, NC</td>
-                    <td>Nick</td>
-                    <td>Example Brokerage</td>
-                    <td>$2,350</td>
-                    <td>
-                      <span class="status delivered">
-                        Delivered
-                      </span>
-                    </td>
-                  </tr>
-
-                </tbody>
-
-              </table>
-
-            </div>
-
-          </div>
 
         </div>
 
 
-        <!-- LOADS -->
+        <div class="table-wrapper">
 
-        <div class="page" id="loads">
-          <div class="placeholder">
-            <h3>Loads</h3>
-            <p>
-              This will become your complete load board.
-              Next we'll connect it to Supabase.
-            </p>
-          </div>
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Load #</th>
+                <th>Truck</th>
+                <th>Route</th>
+                <th>Driver</th>
+                <th>Broker</th>
+                <th>Rate</th>
+                <th>Status</th>
+              </tr>
+
+            </thead>
+
+
+            <tbody id="loadsTableBody">
+
+              <tr>
+                <td
+                  colspan="7"
+                  class="empty-message"
+                >
+                  Loading loads...
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+
         </div>
 
+      </div>
 
-        <!-- TRUCKS -->
+    </section>
 
-        <div class="page" id="trucks">
-          <div class="placeholder">
-            <h3>Trucks</h3>
-            <p>
-              Fleet units, availability and assignment will appear here.
-            </p>
-          </div>
-        </div>
+  </main>
+
+</div>
 
 
-        <!-- DRIVERS -->
+<script>
 
-        <div class="page" id="drivers">
-          <div class="placeholder">
-            <h3>Drivers</h3>
-            <p>
-              Driver profiles and truck assignments will appear here.
-            </p>
-          </div>
-        </div>
+  /* =========================
+     SUPABASE
+  ========================= */
 
+  const SUPABASE_URL =
+    "https://mrxweerysqyurlphyguj.supabase.co";
 
-        <!-- BROKERS -->
-
-        <div class="page" id="brokers">
-          <div class="placeholder">
-            <h3>Brokers</h3>
-            <p>
-              Broker contacts and history will appear here.
-            </p>
-          </div>
-        </div>
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_8szM12j9eT7mYtUNQbl-aQ_zPp6gUFx";
 
 
-      </section>
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
 
-    </main>
 
-  </div>
+  /* =========================
+     SECURITY / LOGIN
+  ========================= */
+
+  async function initializeDashboard() {
+
+    const {
+      data: { session },
+      error
+    } =
+      await supabaseClient.auth.getSession();
 
 
-  <script>
+    if (error) {
 
-    /* ==============================
-       SUPABASE
-    ============================== */
+      console.error(error);
 
-    const SUPABASE_URL =
-      "https://mrxweerysqyurlphyguj.supabase.co";
+      window.location.href =
+        "index.html";
 
-    const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_8szM12j9eT7mYtUNQbl-aQ_zPp6gUFx";
+      return;
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
+    }
+
+
+    if (!session) {
+
+      window.location.href =
+        "index.html";
+
+      return;
+
+    }
+
+
+    document
+      .getElementById("signedInEmail")
+      .textContent =
+      session.user.email;
+
+
+    await loadDashboardData();
+
+  }
+
+
+  /* =========================
+     LOAD DATABASE DATA
+  ========================= */
+
+  async function loadDashboardData() {
+
+    const errorBox =
+      document.getElementById("errorBox");
+
+    errorBox.style.display =
+      "none";
+
+
+    const {
+      data: loads,
+      error
+    } =
+      await supabaseClient
+        .from("loads")
+        .select("*")
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
+
+
+    if (error) {
+
+      console.error(
+        "Supabase error:",
+        error
+      );
+
+      errorBox.textContent =
+        "Could not load dashboard data: " +
+        error.message;
+
+      errorBox.style.display =
+        "block";
+
+      return;
+
+    }
+
+
+    renderLoads(loads || []);
+
+    updateStatistics(loads || []);
+
+  }
+
+
+  /* =========================
+     RENDER LOAD TABLE
+  ========================= */
+
+  function renderLoads(loads) {
+
+    const tbody =
+      document.getElementById(
+        "loadsTableBody"
       );
 
 
-    /* ==============================
-       PROTECT DASHBOARD
-    ============================== */
-
-    async function protectPage() {
-
-      const {
-        data: { session },
-        error
-      } =
-        await supabaseClient.auth.getSession();
+    tbody.innerHTML = "";
 
 
-      if (error || !session) {
+    if (loads.length === 0) {
 
-        window.location.href = "index.html";
-        return;
+      tbody.innerHTML = `
+        <tr>
+          <td
+            colspan="7"
+            class="empty-message"
+          >
+            No loads yet. Click + New Load to create your first load.
+          </td>
+        </tr>
+      `;
+
+      return;
+
+    }
+
+
+    loads.forEach(function(load) {
+
+      const pickup =
+        [
+          load.pickup_city,
+          load.pickup_state
+        ]
+        .filter(Boolean)
+        .join(", ");
+
+
+      const delivery =
+        [
+          load.delivery_city,
+          load.delivery_state
+        ]
+        .filter(Boolean)
+        .join(", ");
+
+
+      const route =
+        pickup +
+        " → " +
+        delivery;
+
+
+      const rate =
+        Number(
+          load.rate || 0
+        )
+        .toLocaleString(
+          "en-US",
+          {
+            style: "currency",
+            currency: "USD",
+            maximumFractionDigits: 0
+          }
+        );
+
+
+      const row =
+        document.createElement("tr");
+
+
+      const loadNumber =
+        document.createElement("td");
+
+      loadNumber.textContent =
+        load.load_number || "-";
+
+
+      const truck =
+        document.createElement("td");
+
+      truck.textContent =
+        load.truck_number || "-";
+
+
+      const routeCell =
+        document.createElement("td");
+
+      routeCell.textContent =
+        route;
+
+      routeCell.className =
+        "route";
+
+
+      const driver =
+        document.createElement("td");
+
+      driver.textContent =
+        load.driver_name || "-";
+
+
+      const broker =
+        document.createElement("td");
+
+      broker.textContent =
+        load.broker_name || "-";
+
+
+      const rateCell =
+        document.createElement("td");
+
+      rateCell.textContent =
+        rate;
+
+
+      const statusCell =
+        document.createElement("td");
+
+
+      const status =
+        document.createElement("span");
+
+      status.className =
+        "status " +
+        getStatusClass(
+          load.status
+        );
+
+      status.textContent =
+        load.status || "-";
+
+
+      statusCell.appendChild(
+        status
+      );
+
+
+      row.appendChild(
+        loadNumber
+      );
+
+      row.appendChild(
+        truck
+      );
+
+      row.appendChild(
+        routeCell
+      );
+
+      row.appendChild(
+        driver
+      );
+
+      row.appendChild(
+        broker
+      );
+
+      row.appendChild(
+        rateCell
+      );
+
+      row.appendChild(
+        statusCell
+      );
+
+
+      tbody.appendChild(
+        row
+      );
+
+    });
+
+  }
+
+
+  /* =========================
+     STATUS COLORS
+  ========================= */
+
+  function getStatusClass(status) {
+
+    switch (status) {
+
+      case "Dispatched":
+        return "status-dispatched";
+
+      case "Loaded":
+        return "status-loaded";
+
+      case "Transit":
+        return "status-transit";
+
+      case "Delivered":
+        return "status-delivered";
+
+      case "Cancelled":
+        return "status-cancelled";
+
+      default:
+        return "";
+
+    }
+
+  }
+
+
+  /* =========================
+     STATISTICS
+  ========================= */
+
+  function updateStatistics(loads) {
+
+
+    /* ACTIVE LOADS */
+
+    const activeLoads =
+      loads.filter(function(load) {
+
+        return (
+          load.status !== "Delivered" &&
+          load.status !== "Cancelled"
+        );
+
+      });
+
+
+    document
+      .getElementById(
+        "activeLoadsCount"
+      )
+      .textContent =
+      activeLoads.length;
+
+
+
+    /* UNIQUE TRUCKS */
+
+    const trucks =
+      new Set();
+
+
+    loads.forEach(function(load) {
+
+      if (
+        load.truck_number &&
+        load.truck_number.trim() !== ""
+      ) {
+
+        trucks.add(
+          load.truck_number.trim()
+        );
 
       }
 
+    });
 
-      document.getElementById("userEmail").textContent =
-        session.user.email;
-
-    }
-
-
-    protectPage();
-
-
-    /* ==============================
-       LOGOUT
-    ============================== */
 
     document
-      .getElementById("logoutButton")
-      .addEventListener(
-        "click",
-        async function() {
-
-          await supabaseClient.auth.signOut();
-
-          window.location.href =
-            "index.html";
-
-        }
-      );
+      .getElementById(
+        "trucksCount"
+      )
+      .textContent =
+      trucks.size;
 
 
-    /* ==============================
-       NAVIGATION
-    ============================== */
 
-    const navButtons =
-      document.querySelectorAll(
-        ".nav button"
-      );
+    /* UNIQUE DRIVERS */
 
-    const pages =
-      document.querySelectorAll(
-        ".page"
-      );
+    const drivers =
+      new Set();
 
 
-    function openPage(pageName) {
+    loads.forEach(function(load) {
 
-      navButtons.forEach(
-        function(button) {
+      if (
+        load.driver_name &&
+        load.driver_name.trim() !== ""
+      ) {
 
-          button.classList.toggle(
-            "active",
-            button.dataset.page === pageName
+        drivers.add(
+          load.driver_name.trim()
+        );
+
+      }
+
+    });
+
+
+    document
+      .getElementById(
+        "driversCount"
+      )
+      .textContent =
+      drivers.size;
+
+
+
+    /* WEEKLY REVENUE */
+
+    const now =
+      new Date();
+
+
+    const sevenDaysAgo =
+      new Date();
+
+
+    sevenDaysAgo.setDate(
+      now.getDate() - 7
+    );
+
+
+    let weeklyRevenue =
+      0;
+
+
+    loads.forEach(function(load) {
+
+      if (!load.created_at) {
+        return;
+      }
+
+
+      const createdAt =
+        new Date(
+          load.created_at
+        );
+
+
+      if (
+        createdAt >= sevenDaysAgo &&
+        createdAt <= now
+      ) {
+
+        weeklyRevenue +=
+          Number(
+            load.rate || 0
           );
 
-        }
-      );
+      }
+
+    });
 
 
-      pages.forEach(
-        function(page) {
-
-          page.classList.toggle(
-            "active",
-            page.id === pageName
-          );
-
-        }
-      );
-
-
-      const titles = {
-        dashboard: "Dashboard",
-        loads: "Loads",
-        trucks: "Trucks",
-        drivers: "Drivers",
-        brokers: "Brokers"
-      };
-
-
-      document
-        .getElementById("pageTitle")
-        .textContent =
-        titles[pageName] || "Dashboard";
-
-    }
-
-
-    navButtons.forEach(
-      function(button) {
-
-        button.addEventListener(
-          "click",
-          function() {
-
-            openPage(
-              button.dataset.page
-            );
-
+    document
+      .getElementById(
+        "weeklyRevenue"
+      )
+      .textContent =
+      weeklyRevenue
+        .toLocaleString(
+          "en-US",
+          {
+            style: "currency",
+            currency: "USD",
+            maximumFractionDigits: 0
           }
+        );
+
+  }
+
+
+  /* =========================
+     NEW LOAD
+  ========================= */
+
+  document
+    .getElementById(
+      "newLoadButton"
+    )
+    .addEventListener(
+      "click",
+      function() {
+
+        window.location.href =
+          "new-load.html";
+
+      }
+    );
+
+
+  /* =========================
+     LOG OUT
+  ========================= */
+
+  document
+    .getElementById(
+      "logoutButton"
+    )
+    .addEventListener(
+      "click",
+      async function() {
+
+        await supabaseClient
+          .auth
+          .signOut();
+
+
+        window.location.href =
+          "index.html";
+
+      }
+    );
+
+
+  /* =========================
+     VIEW ALL
+  ========================= */
+
+  document
+    .getElementById(
+      "viewAllButton"
+    )
+    .addEventListener(
+      "click",
+      function() {
+
+        alert(
+          "Loads page is coming next."
         );
 
       }
     );
 
 
-    document
-      .querySelectorAll(
-        "[data-go]"
-      )
-      .forEach(
-        function(button) {
+  /* =========================
+     START
+  ========================= */
 
-          button.addEventListener(
-            "click",
-            function() {
+  initializeDashboard();
 
-              openPage(
-                button.dataset.go
-              );
-
-            }
-          );
-
-        }
-      );
-
-
-    /* ==============================
-       NEW LOAD
-    ============================== */
-
-    document
-      .getElementById("newLoadButton")
-      .addEventListener(
-        "click",
-        function() {
-
-          window.location.href =
-            "new-load.html";
-
-        }
-      );
-
-  </script>
+</script>
 
 </body>
 </html>

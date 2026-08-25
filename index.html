@@ -1,362 +1,600 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Fleetsmart Management | Dispatcher Portal</title>
+  <title>Fleetsmart Management | Dispatcher Portal</title>
 
-<style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    min-height: 100vh;
-    background: #f5f5f3;
-    color: #161616;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px;
-}
-
-.login-container {
-    width: 100%;
-    max-width: 1050px;
-    min-height: 610px;
-
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-
-    background: #ffffff;
-    border: 1px solid #e5e5e5;
-    border-radius: 24px;
-    overflow: hidden;
-
-    box-shadow:
-        0 25px 70px rgba(0,0,0,0.08);
-}
-
-/* LEFT SIDE */
-
-.brand-side {
-    background: #ffffff;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-    padding: 55px;
-}
-
-.logo {
-    width: 310px;
-    max-width: 80%;
-    margin-bottom: 35px;
-}
-
-.brand-side h1 {
-    font-size: 36px;
-    font-weight: 800;
-    margin-bottom: 12px;
-    color: #111111;
-}
-
-.brand-side p {
-    color: #777777;
-    font-size: 16px;
-}
-
-/* RIGHT SIDE */
-
-.login-side {
-    background: #fafafa;
-    border-left: 1px solid #eeeeee;
-
-    padding: 70px 60px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.eyebrow {
-    color: #d9a900;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-
-    margin-bottom: 16px;
-}
-
-.login-side h2 {
-    font-size: 38px;
-    color: #111111;
-    margin-bottom: 12px;
-}
-
-.subtitle {
-    color: #777777;
-    line-height: 1.5;
-    margin-bottom: 40px;
-}
-
-/* FORM */
-
-.field {
-    margin-bottom: 22px;
-}
-
-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-
-    margin-bottom: 9px;
-
-    color: #333333;
-}
-
-input {
-    width: 100%;
-    height: 54px;
-
-    padding: 0 16px;
-
-    border: 1px solid #dddddd;
-    border-radius: 11px;
-
-    background: #ffffff;
-    color: #111111;
-
-    font-size: 15px;
-
-    outline: none;
-    transition: 0.2s;
-}
-
-input::placeholder {
-    color: #aaaaaa;
-}
-
-input:focus {
-    border-color: #f6c400;
-
-    box-shadow:
-        0 0 0 3px rgba(246,196,0,0.15);
-}
-
-.password-row {
-    display: flex;
-    justify-content: flex-end;
-
-    margin-top: -10px;
-    margin-bottom: 28px;
-}
-
-.password-row a {
-    color: #666666;
-    font-size: 13px;
-    text-decoration: none;
-}
-
-.password-row a:hover {
-    color: #c99c00;
-}
-
-/* BUTTON */
-
-.login-button {
-    width: 100%;
-    height: 56px;
-
-    border: none;
-    border-radius: 11px;
-
-    background: #f6c400;
-    color: #111111;
-
-    font-size: 16px;
-    font-weight: 800;
-
-    cursor: pointer;
-
-    transition: 0.2s;
-}
-
-.login-button:hover {
-    background: #ffd21a;
-    transform: translateY(-1px);
-}
-
-/* FOOTER */
-
-.footer {
-    margin-top: 32px;
-
-    text-align: center;
-
-    color: #aaaaaa;
-    font-size: 12px;
-}
-
-/* MOBILE */
-
-@media (max-width: 850px) {
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-        padding: 15px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+
+      background: #f7f7f5;
+      color: #111111;
+
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 30px;
     }
 
     .login-container {
-        grid-template-columns: 1fr;
+      width: 100%;
+      max-width: 930px;
+      min-height: 580px;
+
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      background: #ffffff;
+
+      border: 1px solid #e4e4e4;
+      border-radius: 22px;
+
+      overflow: hidden;
+
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.10);
     }
 
+    /* LEFT SIDE */
+
     .brand-side {
-        padding: 40px 25px;
+      background: #ffffff;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      padding: 55px 45px;
+
+      text-align: center;
     }
 
     .logo {
-        width: 200px;
-        margin-bottom: 20px;
+      width: 310px;
+      max-width: 90%;
+      height: auto;
+
+      object-fit: contain;
+
+      margin-bottom: 25px;
     }
 
     .brand-side h1 {
-        font-size: 27px;
+      font-size: 32px;
+      font-weight: 750;
+
+      margin-bottom: 10px;
+
+      letter-spacing: -0.7px;
     }
 
-    .login-side {
-        border-left: none;
-        border-top: 1px solid #eeeeee;
+    .brand-side p {
+      font-size: 16px;
+      color: #737373;
+    }
 
-        padding: 45px 30px;
+    /* RIGHT SIDE */
+
+    .login-side {
+      background: #fafafa;
+
+      border-left: 1px solid #eeeeee;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 60px 55px;
+    }
+
+    .portal-label {
+      color: #d99f00;
+
+      font-size: 12px;
+      font-weight: 800;
+
+      letter-spacing: 2px;
+
+      margin-bottom: 14px;
     }
 
     .login-side h2 {
-        font-size: 32px;
+      font-size: 36px;
+      font-weight: 750;
+
+      letter-spacing: -0.8px;
+
+      margin-bottom: 12px;
     }
-}
-</style>
+
+    .subtitle {
+      color: #707070;
+
+      font-size: 15px;
+      line-height: 1.5;
+
+      margin-bottom: 34px;
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    .field label {
+      display: block;
+
+      font-size: 14px;
+      font-weight: 650;
+
+      margin-bottom: 8px;
+    }
+
+    .field input {
+      width: 100%;
+
+      height: 52px;
+
+      border: 1px solid #d8d8d8;
+      border-radius: 10px;
+
+      background: #ffffff;
+
+      padding: 0 15px;
+
+      font-size: 15px;
+
+      outline: none;
+
+      transition: 0.2s;
+    }
+
+    .field input:focus {
+      border-color: #f5bd00;
+
+      box-shadow: 0 0 0 3px rgba(245, 189, 0, 0.12);
+    }
+
+    .field input::placeholder {
+      color: #a1a1a1;
+    }
+
+    .password-row {
+      text-align: right;
+
+      margin-top: -8px;
+      margin-bottom: 25px;
+    }
+
+    .password-row a {
+      color: #666666;
+
+      font-size: 13px;
+
+      text-decoration: none;
+    }
+
+    .password-row a:hover {
+      color: #111111;
+    }
+
+    .login-button {
+      width: 100%;
+
+      height: 52px;
+
+      border: none;
+      border-radius: 10px;
+
+      background: #ffc400;
+      color: #111111;
+
+      font-size: 15px;
+      font-weight: 750;
+
+      cursor: pointer;
+
+      transition: 0.2s;
+    }
+
+    .login-button:hover {
+      background: #f2b900;
+      transform: translateY(-1px);
+    }
+
+    .login-button:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    #loginMessage {
+      min-height: 20px;
+
+      margin-top: 16px;
+
+      text-align: center;
+
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .footer {
+      margin-top: 30px;
+
+      text-align: center;
+
+      color: #9a9a9a;
+
+      font-size: 11px;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 760px) {
+
+      body {
+        padding: 15px;
+      }
+
+      .login-container {
+        grid-template-columns: 1fr;
+      }
+
+      .brand-side {
+        padding: 35px 25px;
+      }
+
+      .logo {
+        width: 220px;
+      }
+
+      .brand-side h1 {
+        font-size: 26px;
+      }
+
+      .login-side {
+        border-left: none;
+        border-top: 1px solid #eeeeee;
+
+        padding: 40px 30px;
+      }
+
+      .login-side h2 {
+        font-size: 30px;
+      }
+    }
+  </style>
 </head>
+
 
 <body>
 
-<div class="login-container">
+  <main class="login-container">
 
-    <!-- LEFT -->
+    <!-- LEFT SIDE -->
 
     <section class="brand-side">
 
-        <img
-            src="logo.svg"
-            alt="Fleetsmart Management"
-            class="logo"
-        >
+      <img
+        src="logo.svg"
+        alt="Fleetsmart Management"
+        class="logo"
+      >
 
-        <h1>Fleetsmart Management</h1>
+      <h1>Fleetsmart Management</h1>
 
-        <p>
-            Transportation & Dispatch Management System
-        </p>
+      <p>
+        Transportation &amp; Dispatch Management System
+      </p>
 
     </section>
 
 
-    <!-- RIGHT -->
+    <!-- RIGHT SIDE -->
 
     <section class="login-side">
 
-        <div class="eyebrow">
-            Dispatcher Portal
-        </div>
+      <div class="portal-label">
+        DISPATCHER PORTAL
+      </div>
 
-        <h2>Welcome back</h2>
+      <h2>
+        Welcome back
+      </h2>
 
-        <p class="subtitle">
-            Sign in to manage loads, trucks, drivers and dispatch operations.
-        </p>
-
-
-        <form onsubmit="demoLogin(event)">
-
-            <div class="field">
-
-                <label>Email address</label>
-
-                <input
-                    type="email"
-                    placeholder="dispatcher@fleetsmartloads.com"
-                    required
-                >
-
-            </div>
+      <p class="subtitle">
+        Sign in to manage loads, trucks, drivers and
+        dispatch operations.
+      </p>
 
 
-            <div class="field">
+      <form id="loginForm">
 
-                <label>Password</label>
+        <div class="field">
 
-                <input
-                    type="password"
-                    placeholder="Enter your password"
-                    required
-                >
+          <label for="email">
+            Email address
+          </label>
 
-            </div>
-
-
-            <div class="password-row">
-
-                <a href="#">
-                    Forgot password?
-                </a>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="login-button"
-            >
-                Sign In
-            </button>
-
-        </form>
-
-
-        <div class="footer">
-
-            © 2026 Fleetsmart Management LLC.
-            Authorized personnel only.
+          <input
+            id="email"
+            type="email"
+            placeholder="dispatcher@fleetsmartloads.com"
+            autocomplete="email"
+            required
+          >
 
         </div>
+
+
+        <div class="field">
+
+          <label for="password">
+            Password
+          </label>
+
+          <input
+            id="password"
+            type="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+          >
+
+        </div>
+
+
+        <div class="password-row">
+
+          <a href="#" id="forgotPassword">
+            Forgot password?
+          </a>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="login-button"
+          id="loginButton"
+        >
+          Sign In
+        </button>
+
+
+        <p id="loginMessage"></p>
+
+      </form>
+
+
+      <div class="footer">
+        © 2026 Fleetsmart Management LLC.
+        Authorized personnel only.
+      </div>
 
     </section>
 
-</div>
+  </main>
 
 
-<script>
+  <script>
 
-function demoLogin(event) {
+    /* ==========================
+       SUPABASE
+    ========================== */
 
-    event.preventDefault();
+    const SUPABASE_URL =
+      "https://mrxweerysqyurlphyguj.supabase.co";
 
-    alert(
-        "Login page ready. Authentication will be connected next."
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_8szM12j9eT7mYtUNQbl-aQ_zPp6gUFx";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    /* ==========================
+       LOGIN
+    ========================== */
+
+    const loginForm =
+      document.getElementById("loginForm");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const loginMessage =
+      document.getElementById("loginMessage");
+
+
+    loginForm.addEventListener(
+      "submit",
+      async function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+          document
+            .getElementById("email")
+            .value
+            .trim();
+
+
+        const password =
+          document
+            .getElementById("password")
+            .value;
+
+
+        loginButton.disabled = true;
+
+        loginButton.textContent =
+          "Signing In...";
+
+        loginMessage.textContent = "";
+
+
+        try {
+
+          const { data, error } =
+            await supabaseClient.auth
+              .signInWithPassword({
+
+                email: email,
+
+                password: password
+
+              });
+
+
+          if (error) {
+
+            console.error(error);
+
+            loginMessage.style.color =
+              "#c62828";
+
+            loginMessage.textContent =
+              "Incorrect email or password.";
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+              "Sign In";
+
+            return;
+          }
+
+
+          if (data.session) {
+
+            loginMessage.style.color =
+              "#16803c";
+
+            loginMessage.textContent =
+              "Login successful. Opening portal...";
+
+
+            setTimeout(function() {
+
+              window.location.href =
+                "dashboard.html";
+
+            }, 500);
+
+          }
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          loginMessage.style.color =
+            "#c62828";
+
+          loginMessage.textContent =
+            "Unable to connect. Please try again.";
+
+          loginButton.disabled = false;
+
+          loginButton.textContent =
+            "Sign In";
+
+        }
+
+      }
     );
 
-}
 
-</script>
+    /* ==========================
+       FORGOT PASSWORD
+    ========================== */
+
+    document
+      .getElementById("forgotPassword")
+      .addEventListener(
+        "click",
+        async function(event) {
+
+          event.preventDefault();
+
+
+          const email =
+            document
+              .getElementById("email")
+              .value
+              .trim();
+
+
+          if (!email) {
+
+            loginMessage.style.color =
+              "#c62828";
+
+            loginMessage.textContent =
+              "Enter your email address first.";
+
+            return;
+
+          }
+
+
+          const { error } =
+            await supabaseClient.auth
+              .resetPasswordForEmail(
+                email,
+                {
+                  redirectTo:
+                    "https://app.fleetsmartloads.com/"
+                }
+              );
+
+
+          if (error) {
+
+            console.error(error);
+
+            loginMessage.style.color =
+              "#c62828";
+
+            loginMessage.textContent =
+              "Could not send password reset email.";
+
+          } else {
+
+            loginMessage.style.color =
+              "#16803c";
+
+            loginMessage.textContent =
+              "Password reset email sent.";
+
+          }
+
+        }
+      );
+
+  </script>
 
 </body>
 </html>

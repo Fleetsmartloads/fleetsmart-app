@@ -296,6 +296,8 @@
       font-weight: 700;
     }
 
+    /* STATUS */
+
     .status {
       display: inline-block;
       padding: 6px 10px;
@@ -327,6 +329,29 @@
     .status-cancelled {
       background: #ffe3e3;
       color: #a52323;
+    }
+
+    /* DELETE BUTTON */
+
+    .delete-button {
+      border: 1px solid #f1bcbc;
+      background: #fff3f3;
+      color: #b42323;
+      border-radius: 7px;
+      padding: 6px 10px;
+      font-size: 10px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .delete-button:hover {
+      background: #ffe2e2;
+      border-color: #e99a9a;
+    }
+
+    .delete-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .empty-message {
@@ -379,8 +404,6 @@
 
 <div class="app">
 
-  <!-- SIDEBAR -->
-
   <aside class="sidebar">
 
     <div class="brand">
@@ -392,17 +415,11 @@
       >
 
       <div>
-        <div class="brand-title">
-          Fleetsmart
-        </div>
-
-        <div class="brand-subtitle">
-          Management LLC
-        </div>
+        <div class="brand-title">Fleetsmart</div>
+        <div class="brand-subtitle">Management LLC</div>
       </div>
 
     </div>
-
 
     <nav class="nav">
 
@@ -427,7 +444,6 @@
       </a>
 
     </nav>
-
 
     <div class="sidebar-bottom">
 
@@ -454,15 +470,11 @@
   </aside>
 
 
-  <!-- MAIN -->
-
   <main class="main">
 
     <header class="topbar">
 
-      <h1>
-        Dashboard
-      </h1>
+      <h1>Dashboard</h1>
 
       <button
         class="new-load-button"
@@ -478,9 +490,7 @@
 
       <div class="heading">
 
-        <h2>
-          Operations Overview
-        </h2>
+        <h2>Operations Overview</h2>
 
         <p>
           Monitor current loads, trucks and dispatch activity.
@@ -488,8 +498,6 @@
 
       </div>
 
-
-      <!-- STATS -->
 
       <div class="stats">
 
@@ -581,17 +589,13 @@
       ></div>
 
 
-      <!-- LOADS -->
-
       <div class="loads-card">
 
         <div class="loads-header">
 
           <div>
 
-            <h3>
-              Active Loads
-            </h3>
+            <h3>Active Loads</h3>
 
             <p>
               Latest dispatch activity
@@ -623,6 +627,7 @@
                 <th>Broker</th>
                 <th>Rate</th>
                 <th>Status</th>
+                <th>Actions</th>
               </tr>
 
             </thead>
@@ -632,7 +637,7 @@
 
               <tr>
                 <td
-                  colspan="7"
+                  colspan="8"
                   class="empty-message"
                 >
                   Loading loads...
@@ -656,16 +661,11 @@
 
 <script>
 
-  /* =========================
-     SUPABASE
-  ========================= */
-
   const SUPABASE_URL =
     "https://mrxweerysqyurlphyguj.supabase.co";
 
   const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_8szM12j9eT7mYtUNQbl-aQ_zPp6gUFx";
-
 
   const supabaseClient =
     window.supabase.createClient(
@@ -673,10 +673,6 @@
       SUPABASE_PUBLISHABLE_KEY
     );
 
-
-  /* =========================
-     SECURITY / LOGIN
-  ========================= */
 
   async function initializeDashboard() {
 
@@ -687,19 +683,7 @@
       await supabaseClient.auth.getSession();
 
 
-    if (error) {
-
-      console.error(error);
-
-      window.location.href =
-        "index.html";
-
-      return;
-
-    }
-
-
-    if (!session) {
+    if (error || !session) {
 
       window.location.href =
         "index.html";
@@ -720,14 +704,11 @@
   }
 
 
-  /* =========================
-     LOAD DATABASE DATA
-  ========================= */
-
   async function loadDashboardData() {
 
     const errorBox =
       document.getElementById("errorBox");
+
 
     errorBox.style.display =
       "none";
@@ -750,10 +731,7 @@
 
     if (error) {
 
-      console.error(
-        "Supabase error:",
-        error
-      );
+      console.error(error);
 
       errorBox.textContent =
         "Could not load dashboard data: " +
@@ -774,10 +752,6 @@
   }
 
 
-  /* =========================
-     RENDER LOAD TABLE
-  ========================= */
-
   function renderLoads(loads) {
 
     const tbody =
@@ -794,7 +768,7 @@
       tbody.innerHTML = `
         <tr>
           <td
-            colspan="7"
+            colspan="8"
             class="empty-message"
           >
             No loads yet. Click + New Load to create your first load.
@@ -918,33 +892,47 @@
       );
 
 
-      row.appendChild(
-        loadNumber
+      const actionsCell =
+        document.createElement("td");
+
+
+      const deleteButton =
+        document.createElement("button");
+
+      deleteButton.className =
+        "delete-button";
+
+      deleteButton.textContent =
+        "Delete";
+
+
+      deleteButton.addEventListener(
+        "click",
+        function() {
+
+          deleteLoad(
+            load.id,
+            load.load_number,
+            deleteButton
+          );
+
+        }
       );
 
-      row.appendChild(
-        truck
+
+      actionsCell.appendChild(
+        deleteButton
       );
 
-      row.appendChild(
-        routeCell
-      );
 
-      row.appendChild(
-        driver
-      );
-
-      row.appendChild(
-        broker
-      );
-
-      row.appendChild(
-        rateCell
-      );
-
-      row.appendChild(
-        statusCell
-      );
+      row.appendChild(loadNumber);
+      row.appendChild(truck);
+      row.appendChild(routeCell);
+      row.appendChild(driver);
+      row.appendChild(broker);
+      row.appendChild(rateCell);
+      row.appendChild(statusCell);
+      row.appendChild(actionsCell);
 
 
       tbody.appendChild(
@@ -955,10 +943,6 @@
 
   }
 
-
-  /* =========================
-     STATUS COLORS
-  ========================= */
 
   function getStatusClass(status) {
 
@@ -988,13 +972,71 @@
 
 
   /* =========================
-     STATISTICS
+     DELETE LOAD
   ========================= */
 
+  async function deleteLoad(
+    loadId,
+    loadNumber,
+    button
+  ) {
+
+    const confirmed =
+      window.confirm(
+        "Delete load #" +
+        loadNumber +
+        "?\n\nThis cannot be undone."
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+      "Deleting...";
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("loads")
+        .delete()
+        .eq(
+          "id",
+          loadId
+        );
+
+
+    if (error) {
+
+      console.error(error);
+
+      alert(
+        "Could not delete load: " +
+        error.message
+      );
+
+      button.disabled = false;
+
+      button.textContent =
+        "Delete";
+
+      return;
+
+    }
+
+
+    await loadDashboardData();
+
+  }
+
+
   function updateStatistics(loads) {
-
-
-    /* ACTIVE LOADS */
 
     const activeLoads =
       loads.filter(function(load) {
@@ -1014,9 +1056,6 @@
       .textContent =
       activeLoads.length;
 
-
-
-    /* UNIQUE TRUCKS */
 
     const trucks =
       new Set();
@@ -1046,9 +1085,6 @@
       trucks.size;
 
 
-
-    /* UNIQUE DRIVERS */
-
     const drivers =
       new Set();
 
@@ -1076,9 +1112,6 @@
       .textContent =
       drivers.size;
 
-
-
-    /* WEEKLY REVENUE */
 
     const now =
       new Date();
@@ -1143,10 +1176,6 @@
   }
 
 
-  /* =========================
-     NEW LOAD
-  ========================= */
-
   document
     .getElementById(
       "newLoadButton"
@@ -1161,10 +1190,6 @@
       }
     );
 
-
-  /* =========================
-     LOG OUT
-  ========================= */
 
   document
     .getElementById(
@@ -1186,10 +1211,6 @@
     );
 
 
-  /* =========================
-     VIEW ALL
-  ========================= */
-
   document
     .getElementById(
       "viewAllButton"
@@ -1205,10 +1226,6 @@
       }
     );
 
-
-  /* =========================
-     START
-  ========================= */
 
   initializeDashboard();
 

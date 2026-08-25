@@ -51,11 +51,11 @@
     }
 
     .brand-logo {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: white;
-      padding: 4px;
+      background: #ffffff;
+      padding: 5px;
       object-fit: contain;
     }
 
@@ -218,7 +218,7 @@
       margin-top: 8px;
     }
 
-    /* LOAD TABLE */
+    /* LOADS */
 
     .loads-card {
       background: white;
@@ -292,6 +292,11 @@
       background: #fafafa;
     }
 
+    .internal-id {
+      color: #858991;
+      font-weight: 700;
+    }
+
     .route {
       font-weight: 700;
     }
@@ -331,7 +336,7 @@
       color: #a52323;
     }
 
-    /* DELETE BUTTON */
+    /* ACTIONS */
 
     .delete-button {
       border: 1px solid #f1bcbc;
@@ -370,8 +375,6 @@
       padding: 14px;
       font-size: 13px;
     }
-
-    /* RESPONSIVE */
 
     @media (max-width: 1000px) {
       .stats {
@@ -620,6 +623,7 @@
             <thead>
 
               <tr>
+                <th>#</th>
                 <th>Load #</th>
                 <th>Truck</th>
                 <th>Route</th>
@@ -637,7 +641,7 @@
 
               <tr>
                 <td
-                  colspan="8"
+                  colspan="9"
                   class="empty-message"
                 >
                   Loading loads...
@@ -709,7 +713,6 @@
     const errorBox =
       document.getElementById("errorBox");
 
-
     errorBox.style.display =
       "none";
 
@@ -722,9 +725,9 @@
         .from("loads")
         .select("*")
         .order(
-          "created_at",
+          "id",
           {
-            ascending: false
+            ascending: true
           }
         );
 
@@ -759,7 +762,6 @@
         "loadsTableBody"
       );
 
-
     tbody.innerHTML = "";
 
 
@@ -768,7 +770,7 @@
       tbody.innerHTML = `
         <tr>
           <td
-            colspan="8"
+            colspan="9"
             class="empty-message"
           >
             No loads yet. Click + New Load to create your first load.
@@ -824,6 +826,20 @@
       const row =
         document.createElement("tr");
 
+
+      /* INTERNAL AUTO INCREMENT ID */
+
+      const internalId =
+        document.createElement("td");
+
+      internalId.textContent =
+        load.id;
+
+      internalId.className =
+        "internal-id";
+
+
+      /* BROKER LOAD NUMBER */
 
       const loadNumber =
         document.createElement("td");
@@ -886,7 +902,6 @@
       status.textContent =
         load.status || "-";
 
-
       statusCell.appendChild(
         status
       );
@@ -925,6 +940,7 @@
       );
 
 
+      row.appendChild(internalId);
       row.appendChild(loadNumber);
       row.appendChild(truck);
       row.appendChild(routeCell);
@@ -971,9 +987,7 @@
   }
 
 
-  /* =========================
-     DELETE LOAD
-  ========================= */
+  /* DELETE LOAD */
 
   async function deleteLoad(
     loadId,
@@ -1035,6 +1049,8 @@
 
   }
 
+
+  /* STATISTICS */
 
   function updateStatistics(loads) {
 
@@ -1176,6 +1192,8 @@
   }
 
 
+  /* NEW LOAD */
+
   document
     .getElementById(
       "newLoadButton"
@@ -1190,6 +1208,8 @@
       }
     );
 
+
+  /* LOGOUT */
 
   document
     .getElementById(
@@ -1210,6 +1230,8 @@
       }
     );
 
+
+  /* VIEW ALL LOADS */
 
   document
     .getElementById(
